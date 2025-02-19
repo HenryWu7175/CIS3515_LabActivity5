@@ -22,23 +22,24 @@ class MainActivity : AppCompatActivity() {
         val spinner = findViewById<Spinner>(R.id.spinner)
         val nameTextView = findViewById<TextView>(R.id.textView)
 
-        with (spinner) {
-            adapter = CustomAdapter(names, this@MainActivity)
-            onItemSelectedListener = object: OnItemSelectedListener {
-                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    p0?.run {
-                        nameTextView.text = getItemAtPosition(p2).toString()
+        with (spinner) {//every statement following is preceded with 'spinner.'(the val that was declared earlier
+            adapter = CustomAdapter(names, this@MainActivity) //initiates the adapter and passes the array through it
+            onItemSelectedListener = object: OnItemSelectedListener { // a item selection listener only for the spinner
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) { // adds functions to when an item is selected
+                    p0?.run { //executes when the selected item in the adapterview(aka a spinner) is not null
+                        nameTextView.text = getItemAtPosition(p2).toString() //converts the item selected at the position of type Int to String.
                     }
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
-                }
+                }//nothing occurs when nothing is selected
             }
         }
 
-        findViewById<View>(R.id.deleteButton).setOnClickListener {
-            (names as MutableList).removeAt(spinner.selectedItemPosition)
-            (spinner.adapter as BaseAdapter).notifyDataSetChanged()
+        findViewById<View>(R.id.deleteButton).setOnClickListener {//initializes the button and adds a onclick listener
+            (names as MutableList).removeAt(spinner.selectedItemPosition)//removes the selected item from the array
+            (spinner.adapter as BaseAdapter).notifyDataSetChanged() //updates the adapter with the new array, now that the array has one less item in it
+            //you have to pass it as baseadapter because you are trying to use the function notifydatasetchanged.
         }
 
     }
